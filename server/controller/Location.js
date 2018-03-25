@@ -2,7 +2,8 @@ const { Location, sequelize } = require('../models')
 const log = require('../util/logger')
 const responseHandler = require('../util/responseHandler')
 
-const resultFields = ['id', 'name', 'femalePopulation', 'malePopulation']
+const resultFields = ['id', 'name', 'femalePopulation', 'malePopulation', [sequelize.literal(
+  '("Location"."femalePopulation" + "Location"."malePopulation")'), 'totalPopulation']]
 const inputFields = ['femalePopulation', 'malePopulation', 'name', 'parentID']
 
 module.exports = {
