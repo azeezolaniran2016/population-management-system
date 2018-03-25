@@ -1,0 +1,34 @@
+{
+  "name": "population-management-system",
+  "version": "1.0.0",
+  "description": "Population Management System for managing locations and the total number of residents in each location broken down by gender",
+  "main": "index.js",
+  "dependencies": {
+    "dotenv": "^5.0.1",
+    "pg": "^7.4.1",
+    "pg-hstore": "^2.3.2",
+    "sequelize": "^4.37.4",
+    "sequelize-cli": "^4.0.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "db-init": "sequelize init",
+    "db-migrations": "sequelize db:migrate"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/azeezolaniran2016/population-management-system.git"
+  },
+  "keywords": [
+    "Population",
+    "Management",
+    "System"
+  ],
+  "author": "Azeez Olaniran",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/azeezolaniran2016/population-management-system/issues"
+  },
+  "homepage": "https://github.com/azeezolaniran2016/population-management-system#readme"
+}
