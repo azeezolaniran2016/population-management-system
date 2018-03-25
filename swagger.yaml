@@ -1,0 +1,322 @@
+swagger: '2.0'
+
+info:
+  version: 'v1'
+  title: Rest API for the Population Management System
+  description: |
+    ### This is the API documentation for the [Population Management System](https://github.com/azeezolaniran2016/population-management-system) developed as part of a pilot phase LMS progression process.
+basePath: /api/v1
+host: localhost:3000
+    
+paths:
+  /locations:
+    post:
+      summary: Create a location
+      consumes: 
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: Location
+          description: Locations to be created
+          required: true
+          schema:
+            $ref: '#/definitions/Location'
+      responses:
+        201:
+          description: Successfully created Location
+          schema:
+            type: object
+            properties:
+              id: 
+                type: integer
+                example: 1
+                description: ID of the created Location
+        400:
+          description: Bad request. One or more required fields are missing.
+          schema:
+            type: object
+            properties:
+              msg:
+                type: array
+                description: List of each error that occured
+                items:
+                  type: object
+                  properties:
+                    msg:
+                      type: string
+                      example: Location name is required.
+                      description: Textual description of the error
+        406:
+          description: Invalid request
+          schema:
+            type: object
+            properties:
+              msg:
+                type: string
+                example: Failed to process request. Invalid request.
+                description: Error message
+        409:
+          description: Conflict. Location already exists
+          schema:
+            type: object
+            properties:
+              msg:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    msg: 
+                      type: string
+                      example: Location with name already exists
+                      description: Textual description of error that occured
+        500:
+          description: Internal server error occurred
+          schema:
+            type: object
+            properties:
+              msg:
+                type: string
+                example: An internal server error occurred
+    get:
+      summary: Fetch all locations
+      consumes:
+        - application/json
+      responses:
+        200:
+          description: List of all locations that have been saved
+          schema:
+            type: array
+            items:
+              type: object
+              properties:
+                id:
+                  type: integer
+                  example: 1
+                femalePopulation:
+                  type: integer
+                  example: 100
+                  description: Total female population in the location
+                malePopulation:
+                  type: integer
+                  example: 100
+                  description: Total male population in the location
+                name:
+                  type: string
+                  example: Ikeja
+                  description: Name of the Location
+                createdAt:
+                  type: string
+                  example: '2018-03-24T14:19:00.600Z'
+                  description: Time stamp of when the location was creeated
+                updatedAt:
+                  type: string
+                  example: '2018-03-24T14:19:00.600Z'
+                  description: Time stamp of when the location was last updated
+                subLocations:
+                  type: array
+                  description: List containing IDs of all sub-locations in this Location
+                  items:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                        example: 2
+                        description: ID of a sub-location in this fetched location
+  /locations/{id}:
+    get:
+      summary: Fetch a specific location
+      consumes:
+        - application/json
+      parameters: 
+        - in: path
+          name: id
+          minimum: 1
+          required: true
+          type: integer
+      responses:
+        200:
+          description: Details of Location fetched
+          schema:
+            type: object
+            properties:
+              id:
+                type: integer
+                example: 1
+              femalePopulation:
+                type: integer
+                example: 100
+                description: Total female population in the location
+              malePopulation:
+                type: integer
+                example: 100
+                description: Total male population in the location
+              name:
+                type: string
+                example: Ikeja
+                description: Name of the Location
+              createdAt:
+                type: string
+                example: '2018-03-24T14:19:00.600Z'
+                description: Time stamp of when the location was creeated
+              updatedAt:
+                type: string
+                example: '2018-03-24T14:19:00.600Z'
+                description: Time stamp of when the location was last updated
+              subLocations:
+                type: array
+                description: List containing IDs of all sub-locations in this Location
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                      example: 2
+                      description: ID of a sub-location in this fetched location
+    put:
+      summary: Update specific location
+      consumes: 
+        - application/json
+      parameters:
+        - in: path
+          name: id
+          minimum: 1
+          required: true
+          description: ID of the Location to be updated
+          type: integer
+        - in: body
+          name: Location
+          description: Update data
+          required: true
+          schema:
+            $ref: '#/definitions/Location'
+      responses:
+        200:
+          description: Successfully updated location
+          schema:
+            type: object
+            properties:
+              id: 
+                type: integer
+                example: 1
+                description: ID of the updated location
+        400:
+          description: Bad request. One or more required fields are missing
+          schema:
+            type: object
+            properties:
+              msg:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    msg: 
+                      type: string
+                      example: Location name is required
+                      description: Textual description of error that occured
+        404:
+          description: Specified Location does not exist
+          schema:
+            type: object
+            properties:
+              msg:
+                type: string
+                example: Failed to update location. Not found.
+                description: Error message
+        406:
+          description: Invalid request
+          schema:
+            type: object
+            properties:
+              msg:
+                type: string
+                example: Failed to process request. Invalid request.
+                description: Error message
+        409:
+          description: Conflict. Location already exists
+          schema:
+            type: object
+            properties:
+              msg:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    msg: 
+                      type: string
+                      example: Location with name already exists
+                      description: Textual description of error that occured
+        500:
+          description: Internal server error occurred
+          schema:
+            type: object
+            properties:
+              msg:
+                type: string
+                example: An internal server error occurred
+                description: Textual description of error that occured
+    delete:
+      summary: Delete a specific Location and set it's sub-locations parentIDs to null
+      parameters: 
+        - in: path
+          name: id
+          minimum: 1
+          required: true
+          type: integer
+          description: ID of the location to be deleted
+      responses:
+        200:
+          description: Successfully deleted location
+          schema:
+            type: object
+            properties:
+              id:
+                type: object
+                properties:
+                  msg:
+                    type: string
+                    example: Location deleted
+                    description: Textual description of request status
+        404:
+          description: Specified location does not exist
+          schema:
+            type: object
+            properties:
+              msg:
+                type: string
+                example: Failed to delete location. Not found.
+                description: Textual description of error that occured
+        500:
+          description: Internal server error occurred
+          schema:
+            type: object
+            properties:
+              msg:
+                type: string
+                example: An internal server error occurred
+                description: Textual description of error that occured
+  
+definitions:
+  Location:
+    type: object
+    properties:
+      malePopulation:
+        type: integer
+        description: Population of males
+        example: 100
+        minimum: 0
+      femalePopulation:
+        type: string
+        description: Population of females
+        example: 100
+        minimum: 0
+      name:
+        type: string
+        example: Ikeja
+        description: Name of the location
+      parentID:
+        type: integer
+        example: 1
+        description: ID of this location parent if it has one
+  
