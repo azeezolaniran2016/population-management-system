@@ -46,7 +46,7 @@ module.exports = (sequelize, DataTypes) => {
     parentID: DataTypes.INTEGER
   }, {});
   Location.associate = function(models) {
-    Location.hasMany(models.Location, { as: 'SubLocation', foreignKey: 'parentID', })
+    Location.hasMany(models.Location, { as: 'subLocations', foreignKey: 'parentID', })
   };
   return Location;
 };
